@@ -1,0 +1,115 @@
+<html>  
+<head>  
+<title>Live Poll System</title>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+</head>  
+    <body>  
+        <div class="nav" style="background-color: rgb(39, 5, 63); color: white;">
+            <h1>_Live Polling App</h1>
+        </div>
+        <div class="container">  
+            <div class="row">
+                <div class="col-md-6">
+                    <br />
+                    <form method="post" id="poll_form">
+                        <h3>Which is Best Web Development Frameworks</h3>
+                        <br />
+                        {% for row in webframework %}
+                        <div class="radio">
+                            <label><h4><input type="radio" name="poll_opt" class="poll_opt" value="{{row.title}}" /> {{row.title}}</h4></label>
+                        </div>
+                        {% endfor %}
+                        <br />
+                        <input type="submit" name="poll_button" id="poll_button" class="btn btn-primary" />
+                    </form>
+                    <br />
+                    <br />
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <br /><br /><br />
+                        <br /><br />
+                        <div class="col-md-6">
+                            <img src="../static/flask.png" width="90%" >
+                        </div>
+                        <div class="col-md-6">
+                            <img src="../static/express.png" width="90%">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br /><br />
+                        <div class="col-md-6">
+                            <img src="../static/django.png" width="90%" >
+                        </div>
+                        <div class="col-md-6">
+                            <img src="../static/react.png" width="90%" >
+                        </div>
+                    </div>
+                </div>
+                    
+            </div>
+            <div class="row">
+                <br />
+                <br />
+                <br />
+                    <h4>Poll Results</h4><br />
+                    <div id="poll_result"></div>
+            </div>
+                    
+        </div>
+<script>  
+$(document).ready(function(){
+    fetch_poll_data();
+    function fetch_poll_data()
+    { 
+        var fetchall = 'all';
+        var dataString = 'fetchall='+ fetchall;
+        $.ajax({
+            url:"/poll",
+            method:"POST",
+            data: dataString,
+            success:function(data)
+            {
+                $('#poll_result').html(data); 
+                $("#poll_result").append(data.htmlresponse);
+            }
+        });
+    }
+    $('#poll_form').on('submit', function(event){
+        event.preventDefault();
+        var poll_opt = '';
+        $('.poll_opt').each(function(){
+            if($(this).prop("checked"))
+            {
+                poll_opt = $(this).val();
+            }
+        });
+        if(poll_opt != '')
+        {
+            $('#poll_button').attr('disabled', 'disabled');
+            var form_data = $(this).serialize();
+            $.ajax({
+                url:"/insert",
+                method:"POST",
+                data:form_data,
+                success:function()
+                {
+                    $('#poll_form')[0].reset();
+                    $('#poll_button').attr('disabled', false);
+                    fetch_poll_data();
+                    alert("Poll Submitted Successfully");
+                }
+            });
+        }
+        else
+        {
+            alert("Please Select Option");
+        }
+    });
+
+});  
+</script>
+</body>  
+</html>  
