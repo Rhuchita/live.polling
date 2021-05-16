@@ -1,0 +1,23 @@
+1. Which is your Best framework?
+    a. Django
+    b. Flask
+    c. ReactJs
+    d. Express
+
+2. Which is your most preferrable Language for Competitive programming?
+    a. Python
+    b. C
+    c. C++
+    d. Java
+
+3. Which database you use most?
+    a. MySQL
+    b. SQL Alchemy
+    c. MongoDB
+    d. SQLlite/SQLlite3
+
+4. What you prefer the most?
+    a. Web Development
+    b. Android Development
+    c. Competitive Programming
+    d. AI/ML modelling
